@@ -1,7 +1,17 @@
-﻿namespace dezi.Config
+﻿using dezi.Input;
+
+namespace dezi.Config
 {
     public class KeyBindings
     {
-        // TODO
+        // TODO: load settings
+        // TODO: create properties
+
+        public KeyboardInputs KeyboardInputs { get; }
+
+        public KeyBindings()
+        {
+            this.KeyboardInputs = new KeyboardInputs(this);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using dezi.Config;
+using dezi.Config;
 using dezi.Input;
 using System;
 using System.Collections.Generic;
@@ -63,13 +63,14 @@ namespace dezi.UiElements
         public Ui()
         {
             this.EditorSettings = new EditorSettings();
+            this.KeyboardInputs = this.EditorSettings.CurrentKeyBindings.KeyboardInputs;
+
             this.uiOutput = new List<string>();
             for (int i = 0; i < TerminalHeight; i++)
             {
                 this.uiOutput.Add(string.Empty.PadRight(TerminalWidth));
             }
 
-            this.KeyboardInputs = new KeyboardInputs(this.EditorSettings.CurrentKeyBindings);
             this.Editors = new List<Editor>
             {
                 new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true)
@@ -81,9 +82,7 @@ namespace dezi.UiElements
             while (true)
             {
                 Render();
-                // TODO: handle inputs here
-                // only give it to the editor, if it needs it
-                this.Editors.Single(e => e.IsInFocus).HandleInput();
+                HandleInput();
             }
         }
 
@@ -119,6 +118,32 @@ namespace dezi.UiElements
         {
             Console.CursorTop = row;
             Console.CursorLeft = column;
+        }
+
+        private void HandleInput()
+        {
+            InputAction inputAction = this.KeyboardInputs.GetInputActionsFromKeyboard();
+            switch (inputAction)
+            {
+                case InputAction.QuitProgram:
+                    Environment.Exit(0);
+                    break;
+                case InputAction.QuitEditor:
+                    this.Editors.Remove(this.Editors.Single(e => e.IsInFocus));
+                    break;
+                case InputAction.MoveCursorUp:
+                case InputAction.MoveCursorDown:
+                case InputAction.MoveCursorLeft:
+                case InputAction.MoveCursorRight:
+                case InputAction.Backspace:
+                case InputAction.Delete:
+                case InputAction.AddNewLine:
+                case InputAction.Input:
+                    this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

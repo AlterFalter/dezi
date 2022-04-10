@@ -95,54 +95,48 @@ namespace dezi.UiElements
             return bar;
         }
 
-        public void HandleInput()
+        public void HandleInput(InputAction inputAction)
         {
-            if (this.IsInFocus)
+            switch (inputAction)
             {
-                switch (this.keyboardInputs.GetInputActionsFromKeyboard())
-                {
-                    case InputAction.QuitProgram:
-                        Environment.Exit(0);
-                        break;
-                    case InputAction.MoveCursorUp:
-                        foreach (Cursor cursor in this.Cursors)
-                        {
-                            cursor.UpdateRow(-1, this.Buffer.GetLinesInFile());
-                        }
-                        break;
-                    case InputAction.MoveCursorDown:
-                        foreach (Cursor cursor in this.Cursors)
-                        {
-                            cursor.UpdateRow(+1, this.Buffer.GetLinesInFile());
-                        }
-                        break;
-                    case InputAction.MoveCursorLeft:
-                        foreach (Cursor cursor in this.Cursors)
-                        {
-                            cursor.UpdateColumn(-1, this.Buffer.GetLinesInFile());
-                        }
-                        break;
-                    case InputAction.MoveCursorRight:
-                        foreach (Cursor cursor in this.Cursors)
-                        {
-                            cursor.UpdateColumn(+1, this.Buffer.GetLinesInFile());
-                        }
-                        break;
-                    case InputAction.Backspace:
-                        this.Buffer.Backspace(this.Cursors);
-                        break;
-                    case InputAction.Delete:
-                        this.Buffer.Delete(this.Cursors);
-                        break;
-                    case InputAction.AddNewLine:
-                        this.Buffer.AddNewLine(this.Cursors);
-                        break;
-                    case InputAction.Input:
-                        this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
-                        break;
-                    default:
-                        break;
-                }
+                case InputAction.MoveCursorUp:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateRow(-1, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.MoveCursorDown:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateRow(+1, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.MoveCursorLeft:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateColumn(-1, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.MoveCursorRight:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateColumn(+1, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.Backspace:
+                    this.Buffer.Backspace(this.Cursors);
+                    break;
+                case InputAction.Delete:
+                    this.Buffer.Delete(this.Cursors);
+                    break;
+                case InputAction.AddNewLine:
+                    this.Buffer.AddNewLine(this.Cursors);
+                    break;
+                case InputAction.Input:
+                    this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
+                    break;
+                default:
+                    break;
             }
         }
 
