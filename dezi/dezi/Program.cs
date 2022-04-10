@@ -1,4 +1,4 @@
-﻿using System;
+﻿using dezi.UiElements;
 
 namespace dezi
 {
@@ -6,7 +6,8 @@ namespace dezi
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // TODO: use args for opening files
+            new Ui().Run();
         }
     }
 }
