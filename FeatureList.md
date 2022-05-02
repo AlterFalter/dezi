@@ -20,10 +20,15 @@ See second list for features which are not yet fix if they ever come or not.
 | (un)indent text |  | No |
 | Go to (line) |  | No |
 | Duplicate line |  | No |
+| Move line |  | No |
 | Undo / Redo |  | No |
 | Copy / Paste |  | No |
+| Cut |  | No |
 | Mouse support |  | No |
 | Multi cursor |  | No |
+| Insert mode |  | No |
+| Home / End |  | No |
+| Page Up / Page Down |  | No |
 | Tabs (for multiple files) |  | No |
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |
@@ -56,6 +61,8 @@ See second list for features which are not yet fix if they ever come or not.
 | Backup for power off |  | No |
 | Backup for connection loss |  | No |
 | Save cursor position for next edit |  | No |
+| Detect & mark trailing white space |  | No |
+| Remove trailing white space command |  | No |
 
 ## Supported operating systems
 
