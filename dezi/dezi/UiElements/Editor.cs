@@ -16,7 +16,7 @@ namespace dezi.UiElements
     {
         private readonly KeyboardInputs keyboardInputs;
         private IList<Cursor> cursors;
-        private bool FileWasEdited;
+        private bool hasUnsavedChanges;
 
         public IList<Cursor> Cursors
         {
@@ -37,7 +37,7 @@ namespace dezi.UiElements
         {
             this.keyboardInputs = keyboardInputs;
 
-            this.FileWasEdited = false;
+            this.hasUnsavedChanges = false;
 
             UpdatePositionInUi(coordinateX, coordinateY, width, height);
 
@@ -87,7 +87,7 @@ namespace dezi.UiElements
         {
             // TODO: make content responsive
             string bar = this.Filepath;
-            if (this.FileWasEdited)
+            if (this.hasUnsavedChanges)
             {
                 bar += "*";
             }
@@ -107,6 +107,9 @@ namespace dezi.UiElements
         {
             switch (inputAction)
             {
+                case InputAction.Save:
+                    this.Save();
+                    break;
                 case InputAction.MoveCursorUp:
                     foreach (Cursor cursor in this.Cursors)
                     {
@@ -132,19 +135,19 @@ namespace dezi.UiElements
                     }
                     break;
                 case InputAction.Backspace:
-                    this.FileWasEdited = true;
+                    this.hasUnsavedChanges = true;
                     this.Buffer.Backspace(this.Cursors);
                     break;
                 case InputAction.Delete:
-                    this.FileWasEdited = true;
+                    this.hasUnsavedChanges = true;
                     this.Buffer.Delete(this.Cursors);
                     break;
                 case InputAction.AddNewLine:
-                    this.FileWasEdited = true;
+                    this.hasUnsavedChanges = true;
                     this.Buffer.AddNewLine(this.Cursors);
                     break;
                 case InputAction.Input:
-                    this.FileWasEdited = true;
+                    this.hasUnsavedChanges = true;
                     this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
                     break;
                 case InputAction.Home:
@@ -162,6 +165,12 @@ namespace dezi.UiElements
                 default:
                     break;
             }
+        }
+
+        public void Save()
+        {
+            File.WriteAllLines(this.Filepath, this.Buffer.GetLinesInFile());
+            this.hasUnsavedChanges = false;
         }
 
         public void HandleCursorUpdate(object? sender, PropertyChangedEventArgs e)

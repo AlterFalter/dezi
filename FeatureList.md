@@ -7,16 +7,17 @@ See second list for features which are not yet fix if they ever come or not.
 | Feature | Description | Implemented |
 | ------- | ----------- | ----------- |
 | Create new file |  | Partly |
-| Load file (while opening Dezi) |  | No |
+| Load file (while opening Dezi) |  | Yes (single file) |
 | Load file (while Dezi is open) |  | No |
-| Save files that was opened |  | No |
+| Save existing file |  | Yes |
 | Save new file |  | No |
 | Differentiate between Unix and Windows style EOL |  | No |
 | Line numbering |  | No |
 | Scrolling |  | No |
 | Search in file |  | No |
 | Replace in file |  | No |
-| Mark text |  | No |
+| Mark text by keyboard |  | No |
+| Mark text by mouse |  | No |
 | (un)indent text |  | No |
 | Go to (line) |  | No |
 | Duplicate line |  | No |
@@ -26,8 +27,8 @@ See second list for features which are not yet fix if they ever come or not.
 | Cut |  | No |
 | Mouse support |  | No |
 | Multi cursor |  | No |
-| Insert mode |  | No |
-| Home / End |  | No |
+| Insert mode (insert key) |  | No |
+| Home / End |  | Yes |
 | Page Up / Page Down |  | No |
 | Tabs (for multiple files) |  | No |
 | IntelliSense from file content |  | No |
@@ -64,6 +65,12 @@ See second list for features which are not yet fix if they ever come or not.
 | Save cursor position for next edit |  | No |
 | Detect & mark trailing white space |  | No |
 | Remove trailing white space command |  | No |
+
+## Possible features
+
+These features are not yet decided upon:
+
+
 
 ## Supported operating systems
 

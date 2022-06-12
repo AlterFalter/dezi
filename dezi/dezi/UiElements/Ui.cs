@@ -148,6 +148,7 @@ namespace dezi.UiElements
                 case InputAction.QuitEditor:
                     this.Editors.Remove(this.Editors.Single(e => e.IsInFocus));
                     break;
+                case InputAction.Save:
                 case InputAction.MoveCursorUp:
                 case InputAction.MoveCursorDown:
                 case InputAction.MoveCursorLeft:

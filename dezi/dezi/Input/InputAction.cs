@@ -21,6 +21,7 @@
         Input,
         Replace,
         Copy,
-        Paste
+        Paste,
+        Save
     }
 }
