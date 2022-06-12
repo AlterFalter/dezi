@@ -7,7 +7,10 @@ namespace dezi
     {
         public static void Main(string[] args)
         {
-            // TODO: use args for opening files
+            // don't stop program on [ctrl] + [c]
+            Console.CancelKeyPress += (sender, eventArgs) => {
+                eventArgs.Cancel = true;
+            };
 
             if (args.Length > 1)
             {
