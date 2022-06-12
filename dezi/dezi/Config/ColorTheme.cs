@@ -14,6 +14,7 @@ namespace dezi.Config
 
         public static ColorTheme Load(string colorThemeName)
         {
+            // TODO: select color theme
             ColorTheme defaultColorTheme = new ColorTheme();
             defaultColorTheme.ForegroundColor = Color.White;
             defaultColorTheme.BackgroundColor = Color.Black;

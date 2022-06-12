@@ -1,4 +1,4 @@
-using dezi.Input;
+﻿using dezi.Input;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -79,7 +79,6 @@ namespace dezi.UiElements
                         }
                     }
                 }
-                //
             }
         }
 
