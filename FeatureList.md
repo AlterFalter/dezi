@@ -41,25 +41,21 @@ See second list for features which are not yet fix if they ever come or not.
 | Settings file |  | No |
 | Command aliases from settings |  | No |
 | Custom keybindings | | No |
-| Override settings for filetypes |  | No |
+| Override settings depending on filetype |  | No |
 | Wrap lines as setting |  | No |
 | Syntax highlighting |  | No |
+| Change file encoding |  | No |
 | Detect file encoding |  | No |
 | Show cursor position in file bar |  | No |
 | Vertical split |  | No |
 | Horizontal split |  | No |
 | Reload file |  | No |
-| Git support | Show added, removed, and edited lines and files | No |
-| Git diff | | No |
-| Show version |  | No |
 | Show documentation in editor |  | No |
 | Show keybindings in editor |  | No |
 | Open Folder |  | No |
 | Search File in Folder |  | No |
 | Search content in all files |  | No |
 | Show files in folder |  | No |
-| Terminal emulator |  | No |
-| Debugging |  | No |
 | Backup for power off |  | No |
 | Backup for connection loss |  | No |
 | Save cursor position for next edit |  | No |
@@ -70,7 +66,13 @@ See second list for features which are not yet fix if they ever come or not.
 
 These features are not yet decided upon:
 
-
+| Feature | Description | Implemented |
+| ------- | ----------- | ----------- |
+| Git support | Show added, removed, and edited lines and files | No |
+| Debugging |  | No |
+| Show version |  | No |
+| Git diff | | No |
+| Integrated Terminal emulator | Execute commands from inside the program | No |
 
 ## Supported operating systems
 
