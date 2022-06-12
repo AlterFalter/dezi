@@ -11,6 +11,8 @@ namespace dezi.UiElements
     /// </summary>
     public class Ui
     {
+        private bool isFirstRender;
+
         public static int TerminalWidth => Console.WindowWidth;
 
         public static int TerminalHeight => Console.WindowHeight;
@@ -60,8 +62,10 @@ namespace dezi.UiElements
 
         public EditorSettings EditorSettings { get; set; }
 
-        public Ui()
+        public Ui(IList<string> filePaths)
         {
+            isFirstRender = true;
+
             this.EditorSettings = EditorSettings.Load();
             this.KeyboardInputs = this.EditorSettings.CurrentKeyBindings.KeyboardInputs;
 
@@ -71,9 +75,15 @@ namespace dezi.UiElements
                 this.uiOutput.Add(string.Empty.PadRight(TerminalWidth));
             }
 
+            if (filePaths.Count == 0)
+            {
+                // open empty editor for file when non was given
+                filePaths.Add("");
+            }
+
             this.Editors = new List<Editor>
             {
-                new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true)
+                new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true, filePaths[0])
             };
 
             Console.Title = "Dezi";
@@ -94,7 +104,7 @@ namespace dezi.UiElements
 
         private void Render()
         {
-            // TODO: replace copy method with non-deprecated method
+            // TODO: replace copy-method with non-deprecated method
             IList<string> oldUiOutput = this.uiOutput.Select(l => string.Copy(l)).ToList();
             foreach (Editor editor in this.Editors)
             {
@@ -108,7 +118,7 @@ namespace dezi.UiElements
             // updating complete line is faster than checking every char.
             for (int rowIndex = 0; rowIndex < this.UiOutput.Count; rowIndex++)
             {
-                if (this.UiOutput[rowIndex] != oldUiOutput[rowIndex])
+                if (this.UiOutput[rowIndex] != oldUiOutput[rowIndex] || this.isFirstRender)
                 {
                     SetTerminalCursorPosition(rowIndex, 0);
                     Console.Write(this.UiOutput[rowIndex]);
