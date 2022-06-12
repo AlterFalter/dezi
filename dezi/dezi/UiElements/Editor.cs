@@ -16,6 +16,7 @@ namespace dezi.UiElements
     {
         private readonly KeyboardInputs keyboardInputs;
         private IList<Cursor> cursors;
+        private bool FileWasEdited;
 
         public IList<Cursor> Cursors
         {
@@ -36,6 +37,8 @@ namespace dezi.UiElements
         {
             this.keyboardInputs = keyboardInputs;
 
+            this.FileWasEdited = false;
+
             UpdatePositionInUi(coordinateX, coordinateY, width, height);
 
             this.Filepath = filepath;
@@ -46,7 +49,8 @@ namespace dezi.UiElements
             }
             else
             {
-                // TODO: watch out for encoding, EOL, etc.
+                // TODO: watch out for encoding
+                // TODO: watch out for EOL
                 lines = File.ReadAllLines(filepath);
             }
             this.Buffer = new EditorBuffer(this.Width, this.Height - 1, lines);
@@ -82,7 +86,12 @@ namespace dezi.UiElements
         private string GetEditorBar()
         {
             // TODO: make content responsive
-            string bar = $"{this.Filepath} | Markdown | UTF-8";
+            string bar = this.Filepath;
+            if (this.FileWasEdited)
+            {
+                bar += "*";
+            }
+            bar += " | Markdown | UTF-8";
             if (bar.Length < this.Width)
             {
                 bar = bar.PadRight(this.Width - bar.Length);
@@ -123,15 +132,19 @@ namespace dezi.UiElements
                     }
                     break;
                 case InputAction.Backspace:
+                    this.FileWasEdited = true;
                     this.Buffer.Backspace(this.Cursors);
                     break;
                 case InputAction.Delete:
+                    this.FileWasEdited = true;
                     this.Buffer.Delete(this.Cursors);
                     break;
                 case InputAction.AddNewLine:
+                    this.FileWasEdited = true;
                     this.Buffer.AddNewLine(this.Cursors);
                     break;
                 case InputAction.Input:
+                    this.FileWasEdited = true;
                     this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
                     break;
                 case InputAction.Home:
