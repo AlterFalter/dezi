@@ -11,6 +11,9 @@ See second list for features which are not yet fix if they ever come or not.
 | Load file (while Dezi is open) |  | No |
 | Save existing file |  | Yes |
 | Save new file |  | No |
+| Save existing file under new name |  | No |
+| Close program |  | Yes |
+| Close editor | Close only one of the editors in the program but not the program itself except if it is the last one | Yes |
 | Differentiate between Unix and Windows style EOL |  | No |
 | Line numbering |  | No |
 | Scrolling |  | No |

@@ -22,6 +22,10 @@ namespace dezi.Input
             {
                 return InputAction.QuitProgram;
             }
+            else if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.W)
+            {
+                return InputAction.QuitUiElement;
+            }
             else if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.S)
             {
                 return InputAction.Save;

@@ -14,7 +14,7 @@
         Tab,
         AddCursorOverFirst,
         AddCursorUnderLast,
-        QuitEditor,
+        QuitUiElement,
         QuitProgram,
         Delete,
         Backspace,

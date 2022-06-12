@@ -142,11 +142,18 @@ namespace dezi.UiElements
             switch (inputAction)
             {
                 case InputAction.QuitProgram:
-                    Console.Clear();
-                    Environment.Exit(0);
+                    QuitProgram();
                     break;
-                case InputAction.QuitEditor:
+                case InputAction.QuitUiElement:
                     this.Editors.Remove(this.Editors.Single(e => e.IsInFocus));
+                    if (this.Editors.Count == 0)
+                    {
+                        QuitProgram();
+                    }
+                    else
+                    {
+                        this.Editors.First().IsInFocus = true;
+                    }
                     break;
                 case InputAction.Save:
                 case InputAction.MoveCursorUp:
@@ -167,6 +174,12 @@ namespace dezi.UiElements
                 default:
                     break;
             }
+        }
+
+        private void QuitProgram()
+        {
+            Console.Clear();
+            Environment.Exit(0);
         }
     }
 }
