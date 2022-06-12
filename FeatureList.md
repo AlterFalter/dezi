@@ -30,7 +30,10 @@ See second list for features which are not yet fix if they ever come or not.
 | Insert mode (insert key) |  | No |
 | Home / End |  | Yes |
 | Page Up / Page Down |  | Yes |
-| Tabs (for multiple files) |  | No |
+| Add tabs |  | No |
+| Add tabs as spaces |  | Yes |
+| Tabs (for multiple lines) |  | No |
+| Change tab type |  | No |
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |
 | Integrate language server protocol |  | No |

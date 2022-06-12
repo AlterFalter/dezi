@@ -17,6 +17,7 @@ namespace dezi.UiElements
         private readonly KeyboardInputs keyboardInputs;
         private IList<Cursor> cursors;
         private bool hasUnsavedChanges;
+        private int tabSize;
 
         public IList<Cursor> Cursors
         {
@@ -39,6 +40,8 @@ namespace dezi.UiElements
 
             this.hasUnsavedChanges = false;
 
+            this.tabSize = 4;
+
             UpdatePositionInUi(coordinateX, coordinateY, width, height);
 
             this.Filepath = filepath;
@@ -52,6 +55,7 @@ namespace dezi.UiElements
                 // TODO: watch out for encoding
                 // TODO: watch out for EOL
                 lines = File.ReadAllLines(filepath);
+                // TODO: detect tab size and type (spaces or tab)
             }
             this.Buffer = new EditorBuffer(this.Width, this.Height - 1, lines);
 
@@ -149,6 +153,10 @@ namespace dezi.UiElements
                 case InputAction.Input:
                     this.hasUnsavedChanges = true;
                     this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
+                    break;
+                case InputAction.Tab:
+                    this.hasUnsavedChanges = true;
+                    this.Buffer.AddTab(this.tabSize, this.Cursors);
                     break;
                 case InputAction.Home:
                     foreach (Cursor cursor in this.Cursors)

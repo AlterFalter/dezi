@@ -11,6 +11,7 @@
         End,
         PageUp,
         PageDown,
+        Tab,
         AddCursorOverFirst,
         AddCursorUnderLast,
         QuitEditor,

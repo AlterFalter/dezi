@@ -1,4 +1,4 @@
-﻿using dezi.Input;
+using dezi.Input;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -136,11 +136,26 @@ namespace dezi.UiElements
         {
             foreach (Cursor cursor in cursors)
             {
-                this.allLinesInFile[cursor.Row] = this.allLinesInFile[cursor.Row].Insert(cursor.Column, latestInput);
-                foreach (Cursor updatingCursor in cursors.Where(c => c.Row == cursor.Row && c.Column >= cursor.Column))
-                {
-                    updatingCursor.UpdateColumn(latestInput.Length, this.allLinesInFile);
-                }
+                AddTextAtCursor(latestInput, cursor, cursors);
+            }
+        }
+
+        public void AddTab(int tabSize, IList<Cursor> cursors)
+        {
+            foreach (Cursor cursor in cursors)
+            {
+                int numberOfSpacesUntilFullTab = tabSize - (cursor.Column % tabSize);
+                string tab = new string(' ', numberOfSpacesUntilFullTab);
+                AddTextAtCursor(tab, cursor, cursors);
+            }
+        }
+
+        private void AddTextAtCursor(string newText, Cursor cursorToAddText, IList<Cursor> possibleCursorsToUpdate)
+        {
+            this.allLinesInFile[cursorToAddText.Row] = this.allLinesInFile[cursorToAddText.Row].Insert(cursorToAddText.Column, newText);
+            foreach (Cursor updatingCursor in possibleCursorsToUpdate.Where(c => c.Row == cursorToAddText.Row && c.Column >= cursorToAddText.Column))
+            {
+                updatingCursor.UpdateColumn(newText.Length, this.allLinesInFile);
             }
         }
     }

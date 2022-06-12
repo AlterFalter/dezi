@@ -70,6 +70,10 @@ namespace dezi.Input
             {
                 return InputAction.PageDown;
             }
+            else if (character.Key == ConsoleKey.Tab)
+            {
+                return InputAction.Tab;
+            }
             else
             {
                 this.LatestInput = character.KeyChar.ToString();
