@@ -32,6 +32,7 @@ See second list for features which are not yet fix if they ever come or not.
 | Tabs (for multiple files) |  | No |
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |
+| Integrate language server protocol |  | No |
 | Plug-in / Extension support |  | No |
 | default color themes |  | No |
 | custom color themes |  | No |
