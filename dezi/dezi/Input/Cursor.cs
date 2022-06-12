@@ -89,22 +89,22 @@ namespace dezi.Input
         {
             if (delta != 0)
             {
-                int previousRow = this.row;
-                bool columnChanged = false;
-                this.row = Math.Max(0, Math.Min(this.row + delta, linesInFile.Count - 1));
-                if (this.column > linesInFile[this.row].Length)
+                if (this.row == 0 && delta < 0)
                 {
-                    this.column = linesInFile[this.row].Length;
-                    columnChanged = true;
+                    this.UpdateColumnAbsolute(0, linesInFile);
                 }
-
-                if (previousRow != this.row)
+                else if (this.row == linesInFile.Count - 1 && delta > 0)
                 {
+                    this.UpdateColumnAbsolute(-1, linesInFile);
+                }
+                else
+                {
+                    this.row = Math.Max(0, Math.Min(this.row + delta, linesInFile.Count - 1));
+                    if (this.column >= linesInFile[this.row].Length)
+                    {
+                        this.UpdateColumnAbsolute(-1, linesInFile);
+                    }
                     NotifyPropertyChanged(nameof(this.Row));
-                }
-                if (columnChanged)
-                {
-                    NotifyPropertyChanged(nameof(this.Column));
                 }
             }
         }

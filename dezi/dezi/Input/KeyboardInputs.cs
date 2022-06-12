@@ -62,6 +62,14 @@ namespace dezi.Input
             {
                 return InputAction.End;
             }
+            else if (character.Key == ConsoleKey.PageUp)
+            {
+                return InputAction.PageUp;
+            }
+            else if (character.Key == ConsoleKey.PageDown)
+            {
+                return InputAction.PageDown;
+            }
             else
             {
                 this.LatestInput = character.KeyChar.ToString();

@@ -29,7 +29,7 @@ See second list for features which are not yet fix if they ever come or not.
 | Multi cursor |  | No |
 | Insert mode (insert key) |  | No |
 | Home / End |  | Yes |
-| Page Up / Page Down |  | No |
+| Page Up / Page Down |  | Yes |
 | Tabs (for multiple files) |  | No |
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |

@@ -159,6 +159,8 @@ namespace dezi.UiElements
                 case InputAction.Home:
                 case InputAction.End:
                 case InputAction.Input:
+                case InputAction.PageUp:
+                case InputAction.PageDown:
                     this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
                     break;
                 default:

@@ -162,6 +162,18 @@ namespace dezi.UiElements
                         cursor.UpdateColumnAbsolute(-1, this.Buffer.GetLinesInFile());
                     }
                     break;
+                case InputAction.PageUp:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateRow(-this.Height, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.PageDown:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateRow(this.Height, this.Buffer.GetLinesInFile());
+                    }
+                    break;
                 default:
                     break;
             }
