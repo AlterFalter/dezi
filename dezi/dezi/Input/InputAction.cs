@@ -23,6 +23,9 @@
         Replace,
         Copy,
         Paste,
-        Save
+        Save,
+        SpawnMultiCursorAbove,
+        SpawnMultiCursorUnder,
+        DeactivateMultiCursors
     }
 }

@@ -29,7 +29,7 @@ See second list for features which are not yet fix if they ever come or not.
 | Copy / Paste |  | No |
 | Cut |  | No |
 | Mouse support |  | No |
-| Multi cursor |  | No |
+| Multi cursor |  | Yes |
 | Insert mode (insert key) |  | No |
 | Home / End |  | Yes |
 | Page Up / Page Down |  | Yes |

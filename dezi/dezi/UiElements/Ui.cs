@@ -155,23 +155,8 @@ namespace dezi.UiElements
                         this.Editors.First().IsInFocus = true;
                     }
                     break;
-                case InputAction.Save:
-                case InputAction.MoveCursorUp:
-                case InputAction.MoveCursorDown:
-                case InputAction.MoveCursorLeft:
-                case InputAction.MoveCursorRight:
-                case InputAction.Backspace:
-                case InputAction.Delete:
-                case InputAction.AddNewLine:
-                case InputAction.Home:
-                case InputAction.End:
-                case InputAction.Input:
-                case InputAction.PageUp:
-                case InputAction.PageDown:
-                case InputAction.Tab:
-                    this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
-                    break;
                 default:
+                    this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
                     break;
             }
         }

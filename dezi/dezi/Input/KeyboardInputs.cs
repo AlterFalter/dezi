@@ -16,19 +16,32 @@ namespace dezi.Input
 
         public InputAction GetInputActionsFromKeyboard()
         {
-            ConsoleKeyInfo character = Console.ReadKey();
+            // TODO: alt key doesn't work
+            ConsoleKeyInfo character = Console.ReadKey(true);
             // TODO: use key bindings from settings and not fix keys
-            if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.Q)
+            if (IsPressingCtrl(character) && character.Key == ConsoleKey.Q)
             {
                 return InputAction.QuitProgram;
             }
-            else if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.W)
+            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.W)
             {
                 return InputAction.QuitUiElement;
             }
-            else if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.S)
+            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.S)
             {
                 return InputAction.Save;
+            }
+            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.U)
+            {
+                return InputAction.SpawnMultiCursorAbove;
+            }
+            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.I)
+            {
+                return InputAction.SpawnMultiCursorUnder;
+            }
+            else if (character.Key == ConsoleKey.Escape)
+            {
+                return InputAction.DeactivateMultiCursors;
             }
             else if (character.Key == ConsoleKey.UpArrow)
             {
@@ -83,6 +96,21 @@ namespace dezi.Input
                 this.LatestInput = character.KeyChar.ToString();
                 return InputAction.Input;
             }
+        }
+
+        private bool IsPressingCtrl(ConsoleKeyInfo character)
+        {
+            return (ConsoleModifiers.Control & character.Modifiers) != 0;
+        }
+
+        private bool IsPressingShift(ConsoleKeyInfo character)
+        {
+            return (ConsoleModifiers.Shift & character.Modifiers) != 0;
+        }
+
+        private bool IsPressingAlt(ConsoleKeyInfo character)
+        {
+            return (ConsoleModifiers.Alt & character.Modifiers) != 0;
         }
     }
 }

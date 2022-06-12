@@ -1,5 +1,6 @@
 ﻿using dezi.Helper;
 using dezi.Input;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -137,6 +138,31 @@ namespace dezi.UiElements
                     {
                         cursor.UpdateColumn(+1, this.Buffer.GetLinesInFile());
                     }
+                    break;
+                case InputAction.SpawnMultiCursorAbove:
+                    Cursor firstCursor = this.Cursors.OrderBy(c => c.Row).ThenBy(c => c.Column).First();
+                    if (firstCursor.Row > 0)
+                    {
+                        int rowFromNewCursor = firstCursor.Row - 1;
+                        this.cursors.Add(
+                            new Cursor(
+                                rowFromNewCursor,
+                                Math.Min(firstCursor.Column, this.Buffer.GetLinesInFile()[rowFromNewCursor].Length)));
+                    }
+                    break;
+                case InputAction.SpawnMultiCursorUnder:
+                    Cursor lastCursor = this.Cursors.OrderByDescending(c => c.Row).ThenByDescending(c => c.Column).First();
+                    if (lastCursor.Row < this.Buffer.GetLinesInFile().Count - 1)
+                    {
+                        int rowFromNewCursor = lastCursor.Row + 1;
+                        this.cursors.Add(
+                            new Cursor(
+                                rowFromNewCursor,
+                                Math.Min(lastCursor.Column, this.Buffer.GetLinesInFile()[rowFromNewCursor].Length)));
+                    }
+                    break;
+                case InputAction.DeactivateMultiCursors:
+                    this.cursors = new List<Cursor> { this.Cursors.First() };
                     break;
                 case InputAction.Backspace:
                     this.hasUnsavedChanges = true;
