@@ -17,7 +17,6 @@ namespace dezi.Input
         public InputAction GetInputActionsFromKeyboard()
         {
             ConsoleKeyInfo character = Console.ReadKey();
-
             // TODO: use key bindings from settings and not fix keys
             if ((ConsoleModifiers.Control & character.Modifiers) != 0 && character.Key == ConsoleKey.Q)
             {
@@ -50,6 +49,14 @@ namespace dezi.Input
             else if (character.Key == ConsoleKey.Enter)
             {
                 return InputAction.AddNewLine;
+            }
+            else if (character.Key == ConsoleKey.Home)
+            {
+                return InputAction.Home;
+            }
+            else if (character.Key == ConsoleKey.End)
+            {
+                return InputAction.End;
             }
             else
             {

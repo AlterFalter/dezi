@@ -1,4 +1,6 @@
-﻿namespace dezi.Helper
+﻿using System;
+
+namespace dezi.Helper
 {
     public static class StringHelper
     {
@@ -6,7 +8,7 @@
         {
             return mainString.Substring(0, startIndex)
                 + newSubstring
-                + mainString.Substring(startIndex + newSubstring.Length);
+                + mainString.Substring(Math.Min(startIndex + newSubstring.Length, mainString.Length));
         }
     }
 }

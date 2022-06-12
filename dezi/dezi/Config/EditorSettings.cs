@@ -1,4 +1,8 @@
-﻿namespace dezi.Config
+﻿using dezi.Helper;
+using Newtonsoft.Json;
+using System.IO;
+
+namespace dezi.Config
 {
     public class EditorSettings
     {
@@ -10,18 +14,48 @@
 
         public bool ShowLineNumbers { get; set; }
 
-        public EditorSettings()
+        private EditorSettings()
         {
-            Load();
         }
 
-        public void Load()
+        public void LoadColorTheme()
         {
             // TODO
-            this.CurrentColorTheme = ColorTheme.Load("default");
-            this.CurrentKeyBindings = new KeyBindings();
-            this.WrapLines = true;
-            this.ShowLineNumbers = true;
+        }
+
+        public void LoadKeyBindings()
+        {
+            // TODO
+        }
+
+        public static EditorSettings Load()
+        {
+            EditorSettings editorSettings;
+            if (File.Exists(PathHelper.SettingsFilePath))
+            {
+                string serializedEditorSettings = File.ReadAllText(PathHelper.SettingsFilePath);
+                editorSettings = JsonConvert.DeserializeObject<EditorSettings>(serializedEditorSettings);
+            }
+            else
+            {
+                editorSettings = Default();
+            }
+
+            editorSettings.LoadColorTheme();
+            editorSettings.LoadKeyBindings();
+
+            return editorSettings;
+        }
+
+        public static EditorSettings Default()
+        {
+            EditorSettings editorSettings = new EditorSettings();
+            editorSettings.CurrentColorTheme = ColorTheme.Load("default");
+            editorSettings.CurrentKeyBindings = new KeyBindings();
+            editorSettings.WrapLines = true;
+            editorSettings.ShowLineNumbers = true;
+            // TODO: create settings file
+            return editorSettings;
         }
     }
 }

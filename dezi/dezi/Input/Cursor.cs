@@ -109,8 +109,18 @@ namespace dezi.Input
             }
         }
 
+        /// <summary>
+        /// Use -1 for end of line
+        /// </summary>
+        /// <param name="absoluteColumnIndex"></param>
+        /// <param name="linesInFile"></param>
         public void UpdateColumnAbsolute(int absoluteColumnIndex, IList<string> linesInFile)
         {
+            if (absoluteColumnIndex == -1)
+            {
+                absoluteColumnIndex = linesInFile[this.Row].Length;
+                this.UpdateColumnAbsolute(absoluteColumnIndex, linesInFile);
+            }
             this.UpdateColumn(absoluteColumnIndex - this.column, linesInFile);
         }
 
@@ -149,6 +159,11 @@ namespace dezi.Input
             Cursor otherCursor = (Cursor)other;
             return this.Row == otherCursor.Row &&
                 this.Column == otherCursor.Column;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Column, this.Row);
         }
     }
 }

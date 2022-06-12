@@ -13,7 +13,7 @@ namespace dezi.UiElements
 
         public int OutputHeight { get; set; }
 
-        public int NumberOfLines => allLinesInFile.Count();
+        public int NumberOfLines => allLinesInFile.Count;
 
         public EditorBuffer(int outputWidth, int outputHeight, IEnumerable<string> lines)
         {
@@ -30,15 +30,14 @@ namespace dezi.UiElements
                 .Select(l => l.PadRight(this.OutputWidth))
                 .Select(l2 => l2.Substring(0, this.OutputWidth))
                 .ToList();
-            if (output.Count() < this.OutputHeight)
+            if (output.Count < this.OutputHeight)
             {
-                for (int i = 0; output.Count() < this.OutputHeight; i++)
+                for (int i = 0; output.Count < this.OutputHeight; i++)
                 {
                     output.Add(string.Empty.PadRight(this.OutputWidth));
                 }
             }
-
-            if (output.Count() > this.OutputHeight)
+            else if (output.Count > this.OutputHeight)
             {
                 // TODO
             }
@@ -67,14 +66,20 @@ namespace dezi.UiElements
                 else if (cursor.Row < this.allLinesInFile.Count - 1)
                 {
                     // cursor is at end of line
+                    int oldLineLength = this.allLinesInFile[cursor.Row].Length;
                     allLinesInFile[cursor.Row] += allLinesInFile[cursor.Row + 1];
                     allLinesInFile.RemoveAt(cursor.Row + 1);
                     // update cursors
                     foreach (Cursor updatingCursor in cursors.Where(c => c.Row > cursor.Row))
                     {
                         updatingCursor.UpdateRow(-1, this.allLinesInFile);
+                        if (updatingCursor.Row == cursor.Row)
+                        {
+                            updatingCursor.UpdateRow(oldLineLength, this.allLinesInFile);
+                        }
                     }
                 }
+                //
             }
         }
 
@@ -85,21 +90,30 @@ namespace dezi.UiElements
                 // TODO: start of line
                 if (cursor.Column > 0)
                 {
-                    allLinesInFile[cursor.Row].Remove(cursor.Column - 1, 1);
+                    allLinesInFile[cursor.Row] = allLinesInFile[cursor.Row].Remove(cursor.Column - 1, 1);
                     cursor.UpdateColumn(-1, this.allLinesInFile);
                 }
                 else if (cursor.Row > 0)
                 {
-                    // cursor is at end of line
+                    // cursor is at start of line
+                    // remove newline character (join lines)
+                    int oldLineLength = allLinesInFile[cursor.Row - 1].Length;
                     allLinesInFile[cursor.Row - 1] += allLinesInFile[cursor.Row];
                     allLinesInFile.RemoveAt(cursor.Row);
                     // update cursors
                     cursor.UpdateRow(-1, this.allLinesInFile);
+                    cursor.UpdateColumnAbsolute(oldLineLength, this.allLinesInFile);
                     foreach (Cursor updatingCursor in cursors.Where(c => c.Row > cursor.Row))
                     {
                         updatingCursor.UpdateRow(-1, this.allLinesInFile);
+                        if (updatingCursor.Row == cursor.Row)
+                        {
+                            updatingCursor.UpdateColumn(oldLineLength, this.allLinesInFile);
+                        }
                     }
                 }
+                // do nothing at location x=y=0 (beginning of file)
+                // because there is nothing to delete
             }
         }
 

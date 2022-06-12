@@ -1,4 +1,4 @@
-using dezi.Config;
+﻿using dezi.Config;
 using dezi.Input;
 using System;
 using System.Collections.Generic;
@@ -62,7 +62,7 @@ namespace dezi.UiElements
 
         public Ui()
         {
-            this.EditorSettings = new EditorSettings();
+            this.EditorSettings = EditorSettings.Load();
             this.KeyboardInputs = this.EditorSettings.CurrentKeyBindings.KeyboardInputs;
 
             this.uiOutput = new List<string>();
@@ -75,6 +75,12 @@ namespace dezi.UiElements
             {
                 new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true)
             };
+
+            Console.Title = "Dezi";
+            Console.CursorVisible = false;
+            // TODO: replace with multi-platform code
+            Console.SetWindowSize(TerminalWidth, TerminalHeight);
+            Console.SetBufferSize(TerminalWidth, TerminalHeight);
         }
 
         public void Run()
@@ -138,6 +144,8 @@ namespace dezi.UiElements
                 case InputAction.Backspace:
                 case InputAction.Delete:
                 case InputAction.AddNewLine:
+                case InputAction.Home:
+                case InputAction.End:
                 case InputAction.Input:
                     this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
                     break;

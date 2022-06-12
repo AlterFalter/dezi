@@ -1,6 +1,5 @@
 ﻿using dezi.Helper;
 using dezi.Input;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -134,6 +133,18 @@ namespace dezi.UiElements
                     break;
                 case InputAction.Input:
                     this.Buffer.Input(keyboardInputs.LatestInput, this.Cursors);
+                    break;
+                case InputAction.Home:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateColumnAbsolute(0, this.Buffer.GetLinesInFile());
+                    }
+                    break;
+                case InputAction.End:
+                    foreach (Cursor cursor in this.Cursors)
+                    {
+                        cursor.UpdateColumnAbsolute(-1, this.Buffer.GetLinesInFile());
+                    }
                     break;
                 default:
                     break;
