@@ -1,4 +1,4 @@
-﻿using dezi.Config;
+using dezi.Config;
 using dezi.Input;
 using System;
 using System.Collections.Generic;
@@ -142,6 +142,7 @@ namespace dezi.UiElements
             switch (inputAction)
             {
                 case InputAction.QuitProgram:
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
                 case InputAction.QuitEditor:
