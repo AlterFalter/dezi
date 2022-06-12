@@ -1,4 +1,4 @@
-using dezi.Config;
+﻿using dezi.Config;
 using dezi.Input;
 using System;
 using System.Collections.Generic;
@@ -77,8 +77,8 @@ namespace dezi.UiElements
 
             if (filePaths.Count == 0)
             {
-                // open empty editor for file when non was given
-                filePaths.Add("");
+                // open empty editor when no file path was given
+                filePaths = new string[1] { "" };
             }
 
             this.Editors = new List<Editor>
