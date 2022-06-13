@@ -6,7 +6,8 @@ See second list for features which are not yet fix if they ever come or not.
 
 | Feature | Description | Implemented |
 | ------- | ----------- | ----------- |
-| Create new file |  | Partly |
+| Create new file on opening |  | Partly |
+| Create new file when open |  | No |
 | Load file (while opening Dezi) |  | Yes (single file) |
 | Load file (while Dezi is open) |  | No |
 | Save existing file |  | Yes |
