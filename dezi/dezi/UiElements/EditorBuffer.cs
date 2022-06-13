@@ -86,7 +86,6 @@ namespace dezi.UiElements
         {
             foreach (Cursor cursor in cursors)
             {
-                // TODO: start of line
                 if (cursor.Column > 0)
                 {
                     allLinesInFile[cursor.Row] = allLinesInFile[cursor.Row].Remove(cursor.Column - 1, 1);
