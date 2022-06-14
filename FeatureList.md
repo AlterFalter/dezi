@@ -41,6 +41,7 @@ See second list for features which are not yet fix if they ever come or not.
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |
 | Integrate language server protocol |  | No |
+| Arrange editor in tabs |  | No |
 | Plug-in / Extension support |  | No |
 | default color themes |  | No |
 | custom color themes |  | No |
