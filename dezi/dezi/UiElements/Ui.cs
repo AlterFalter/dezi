@@ -104,6 +104,8 @@ namespace dezi.UiElements
         {
             while (true)
             {
+                // TODO: remove this and insert it at the correct position
+                this.Editors.Single(e => e.IsInFocus).RemoveDuplicateCursors();
                 Render();
                 HandleInput();
             }
