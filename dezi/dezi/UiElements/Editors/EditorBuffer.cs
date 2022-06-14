@@ -60,7 +60,7 @@ namespace dezi.UiElements.Editors
             {
                 if (cursor.Column < allLinesInFile[cursor.Row].Length)
                 {
-                    allLinesInFile[cursor.Row].Remove(cursor.Column, 1);
+                    allLinesInFile[cursor.Row] = allLinesInFile[cursor.Row].Remove(cursor.Column, 1);
                 }
                 // check if it is last line in file or not
                 else if (cursor.Row < this.allLinesInFile.Count - 1)
