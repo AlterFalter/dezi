@@ -6,14 +6,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
-namespace dezi.UiElements
+namespace dezi.UiElements.Editors
 {
     /// <summary>
     /// Editor is the basic editor functionality which loads the content
     /// and creates the specific UI for editing the file
     /// but nothing around it, such as menu.
     /// </summary>
-    public class Editor : UiElement
+    public class Editor : InteractiveUiElement
     {
         private readonly KeyboardInputs keyboardInputs;
         private IList<Cursor> cursors;
@@ -229,7 +229,7 @@ namespace dezi.UiElements
             this.cursors = Cursor.RemoveDuplicateCursors(this.Cursors);
         }
 
-        public override void UpdateSubmoduleSizes(int widthDelta, int heightDelta)
+        protected override void UpdateSubmoduleSizes(int widthDelta, int heightDelta)
         {
             if (this.Buffer != null)
             {

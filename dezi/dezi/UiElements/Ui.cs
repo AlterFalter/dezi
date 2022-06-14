@@ -1,5 +1,7 @@
 ﻿using dezi.Config;
 using dezi.Input;
+using dezi.UiElements.Editors;
+using dezi.UiElements.StackPanel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +64,8 @@ namespace dezi.UiElements
 
         public EditorSettings EditorSettings { get; set; }
 
+        public VerticalStackPanel BaseVerticalStackPanel { get; set; }
+
         public Ui(IList<string> filePaths)
         {
             isFirstRender = true;
@@ -86,6 +90,9 @@ namespace dezi.UiElements
                 new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true, filePaths[0])
             };
 
+            this.BaseVerticalStackPanel = new VerticalStackPanel();
+            this.BaseVerticalStackPanel.AddBottom(this.Editors.First());
+
             Console.Title = "Dezi";
             Console.CursorVisible = false;
             // TODO: replace with multi-platform code
@@ -104,8 +111,14 @@ namespace dezi.UiElements
 
         private void Render()
         {
+            // TODO: Rewrite to render from the stack panel onwards instead of editor
+
+            Console.BackgroundColor = this.EditorSettings.CurrentColorTheme.BackgroundColor;
+            Console.ForegroundColor = this.EditorSettings.CurrentColorTheme.ForegroundColor;
+
             // TODO: replace copy-method with non-deprecated method
             IList<string> oldUiOutput = this.uiOutput.Select(l => string.Copy(l)).ToList();
+
             foreach (Editor editor in this.Editors)
             {
                 editor.Height = TerminalHeight;
@@ -125,9 +138,13 @@ namespace dezi.UiElements
                 }
             }
 
-            // TODO: make multi cursor
-            Cursor activeCursor = this.Editors.Single(e => e.IsInFocus).Cursors.First();
-            SetTerminalCursorPosition(activeCursor.Row, activeCursor.Column);
+            foreach (Cursor cursor in this.Editors.Single(e => e.IsInFocus).Cursors)
+            {
+                SetTerminalCursorPosition(cursor.Row, cursor.Column);
+                Console.BackgroundColor = this.EditorSettings.CurrentColorTheme.CursorColor;
+                Console.Write(this.uiOutput[cursor.Row][cursor.Column]);
+                Console.ResetColor();
+            }
         }
 
         private void SetTerminalCursorPosition(int row, int column)

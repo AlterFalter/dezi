@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace dezi.UiElements
+namespace dezi.UiElements.Editors
 {
     public class EditorBuffer
     {
@@ -88,7 +88,7 @@ namespace dezi.UiElements
             {
                 if (cursor.Column > 0)
                 {
-                    allLinesInFile[cursor.Row] = allLinesInFile[cursor.Row].Remove(cursor.Column - 1, 1);
+                   allLinesInFile[cursor.Row] = allLinesInFile[cursor.Row].Remove(cursor.Column - 1, 1);
                     cursor.UpdateColumn(-1, this.allLinesInFile);
                 }
                 else if (cursor.Row > 0)

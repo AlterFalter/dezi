@@ -2,6 +2,8 @@
 {
     public abstract class UiElement
     {
+        private static int idCounter = 0;
+
         private int width;
         private int height;
 
@@ -33,12 +35,26 @@
             }
         }
 
+        public int ID { get; private set; }
+
         public int CoordinateX { get; set; }
 
         public int CoordinateY { get; set; }
 
-        public bool IsInFocus { get; set; }
+        public bool ShowElement { get; set; }
 
-        public abstract void UpdateSubmoduleSizes(int widthDelta, int heightDelta);
+        protected UiElement()
+        {
+            this.ID = idCounter++;
+            this.ShowElement = true;
+        }
+
+        /// <summary>
+        /// Informs UiElement that size has changed and therefore the sizes of the submodules change too.
+        /// When there are no submodules, let it empty.
+        /// </summary>
+        /// <param name="widthDelta"></param>
+        /// <param name="heightDelta"></param>
+        protected abstract void UpdateSubmoduleSizes(int widthDelta, int heightDelta);
     }
 }

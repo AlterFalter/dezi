@@ -1,12 +1,14 @@
-﻿using System.Drawing;
+﻿using System;
 
 namespace dezi.Config
 {
     public sealed class ColorTheme
     {
-        public Color ForegroundColor { get; private set; }
+        public ConsoleColor ForegroundColor { get; private set; }
 
-        public Color BackgroundColor { get; private set; }
+        public ConsoleColor BackgroundColor { get; private set; }
+
+        public ConsoleColor CursorColor { get; set; }
 
         private ColorTheme()
         {
@@ -16,8 +18,9 @@ namespace dezi.Config
         {
             // TODO: select color theme
             ColorTheme defaultColorTheme = new ColorTheme();
-            defaultColorTheme.ForegroundColor = Color.White;
-            defaultColorTheme.BackgroundColor = Color.Black;
+            defaultColorTheme.ForegroundColor = ConsoleColor.Black;
+            defaultColorTheme.BackgroundColor = ConsoleColor.White;
+            defaultColorTheme.CursorColor = ConsoleColor.Blue;
             return defaultColorTheme;
         }
     }
