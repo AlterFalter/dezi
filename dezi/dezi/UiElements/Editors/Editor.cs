@@ -96,6 +96,15 @@ namespace dezi.UiElements.Editors
             {
                 bar += "*";
             }
+            if (this.cursors.Count > 1)
+            {
+                bar += $" ({this.cursors.Count} cursors)";
+            }
+            else
+            {
+                Cursor activeCursor = this.cursors.Single();
+                bar += $" ({activeCursor.Row},{activeCursor.Column})";
+            }
             bar += " | Markdown | UTF-8";
             if (bar.Length < this.Width)
             {
