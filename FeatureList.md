@@ -17,15 +17,19 @@ See second list for features which are not yet fix if they ever come or not.
 | Close editor | Close only one of the editors in the program but not the program itself except if it is the last one | Yes |
 | Differentiate between Unix and Windows style EOL |  | No |
 | Line numbering |  | No |
+| Backspace/Delete |  | Yes |
 | Scrolling |  | No |
 | Search in file |  | No |
 | Replace in file |  | No |
 | Mark text by keyboard |  | No |
 | Mark text by mouse |  | No |
-| (un)indent text |  | No |
+| (un)indent line |  | No |
+| Indent/unindent selected block |  | No |
 | Go to (line) |  | No |
 | Duplicate line |  | No |
 | Move line |  | No |
+| Remove line |  | No |
+| Mark current line |  | No |
 | Undo / Redo |  | No |
 | Copy / Paste |  | No |
 | Cut |  | No |
@@ -36,7 +40,6 @@ See second list for features which are not yet fix if they ever come or not.
 | Page Up / Page Down |  | Yes |
 | Add tabs |  | No |
 | Add tabs as spaces |  | Yes |
-| Tabs (for multiple lines) |  | No |
 | Change tab type |  | No |
 | IntelliSense from file content |  | No |
 | IntelliSense from language / file type |  | No |
