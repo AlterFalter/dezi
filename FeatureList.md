@@ -25,6 +25,8 @@ See second list for features which are not yet fix if they ever come or not.
 | Mark text by mouse |  | No |
 | (un)indent line |  | No |
 | Indent/unindent selected block |  | No |
+| Indent Rainbow | Every indentation level has a different color. | No |
+| Rainbow brackets/rainbow parentheses | Every parentheses has a different color to make it more readable. | No |
 | Go to (line) |  | No |
 | Duplicate line |  | No |
 | Move line |  | No |
