@@ -13,12 +13,13 @@ namespace dezi.UiElements.Editors
     /// and creates the specific UI for editing the file
     /// but nothing around it, such as menu.
     /// </summary>
-    public class Editor : InteractiveUiElement
+    public class Editor : UiElement
     {
         private readonly KeyboardInputs keyboardInputs;
         private IList<Cursor> cursors;
         private bool hasUnsavedChanges;
         private int tabSize;
+        private Action changeToSaveStatus;
 
         public IList<Cursor> Cursors
         {
@@ -35,13 +36,15 @@ namespace dezi.UiElements.Editors
 
         public EditorBuffer Buffer { get; }
 
-        public Editor(KeyboardInputs keyboardInputs, int coordinateX, int coordinateY, int width, int height, bool isInFocus, string filepath = "")
+        public Editor(KeyboardInputs keyboardInputs, int coordinateX, int coordinateY, int width, int height, bool isInFocus, Action changeToSaveStatus, string filepath = "")
         {
             this.keyboardInputs = keyboardInputs;
 
             this.hasUnsavedChanges = false;
 
             this.tabSize = 4;
+
+            this.changeToSaveStatus = changeToSaveStatus;
 
             UpdatePositionInUi(coordinateX, coordinateY, width, height);
 
@@ -66,6 +69,8 @@ namespace dezi.UiElements.Editors
             this.cursors.Add(cursor);
 
             this.IsInFocus = isInFocus;
+
+            this.IsInteractiveElement = true;
         }
 
         public void UpdatePositionInUi(int coordinateX, int coordinateY, int width, int height)
@@ -76,16 +81,17 @@ namespace dezi.UiElements.Editors
             this.Height = height;
         }
 
-        public void Render(IList<string> uiOutput)
+        public override void Render(IList<string> uiOutput)
         {
+            this.RemoveDuplicateCursors();
             IList<string> lines = this.Buffer.Render();
-            for (int i = 0; i < lines.Count; i++)
+            for (int i = 0; i < lines.Count && i < this.Height - 1; i++)
             {
-                // TODO: fix this
                 uiOutput[this.CoordinateY + i] = StringHelper.PutInNewStringAtIndex(uiOutput[this.CoordinateY + i], this.CoordinateX, lines[i]);
             }
             // editor bar
-            uiOutput[this.CoordinateY + lines.Count] = StringHelper.PutInNewStringAtIndex(uiOutput[this.CoordinateY + lines.Count], this.CoordinateX, GetEditorBar());
+            int editorBarYCoordinate = this.CoordinateY + Math.Min(lines.Count, this.Height - 1);
+            uiOutput[editorBarYCoordinate] = StringHelper.PutInNewStringAtIndex(uiOutput[editorBarYCoordinate], this.CoordinateX, GetEditorBar());
         }
 
         private string GetEditorBar()
@@ -117,7 +123,7 @@ namespace dezi.UiElements.Editors
             return bar;
         }
 
-        public void HandleInput(InputAction inputAction)
+        public override void HandleInput(InputAction inputAction)
         {
             switch (inputAction)
             {
@@ -224,8 +230,15 @@ namespace dezi.UiElements.Editors
 
         public void Save()
         {
-            File.WriteAllLines(this.Filepath, this.Buffer.GetLinesInFile());
-            this.hasUnsavedChanges = false;
+            if (this.Filepath == "")
+            {
+                this.changeToSaveStatus();
+            }
+            else
+            {
+                File.WriteAllLines(this.Filepath, this.Buffer.GetLinesInFile());
+                this.hasUnsavedChanges = false;
+            }
         }
 
         public void HandleCursorUpdate(object? sender, PropertyChangedEventArgs e)
@@ -238,19 +251,24 @@ namespace dezi.UiElements.Editors
             this.cursors = Cursor.RemoveDuplicateCursors(this.Cursors);
         }
 
-        protected override void UpdateSubmoduleSizes(int widthDelta, int heightDelta)
+        protected override void UpdateSubmoduleSizesAndPositions(int widthDelta, int heightDelta)
         {
             if (this.Buffer != null)
             {
                 if (widthDelta != 0)
                 {
-                    this.Buffer.OutputWidth = this.Width + widthDelta;
+                    this.Buffer.OutputWidth = this.Width;
                 }
                 if (heightDelta != 0)
                 {
-                    this.Buffer.OutputHeight = this.Height + heightDelta;
+                    this.Buffer.OutputHeight = this.Height;
                 }
             }
+        }
+
+        public override IList<Cursor> GetCursors()
+        {
+            return this.cursors;
         }
     }
 }

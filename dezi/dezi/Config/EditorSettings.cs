@@ -1,10 +1,11 @@
 ﻿using dezi.Helper;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 
 namespace dezi.Config
 {
-    public class EditorSettings
+    public class EditorSettings : JsonSerializer
     {
         public ColorTheme CurrentColorTheme { get; set; }
 
@@ -21,6 +22,7 @@ namespace dezi.Config
         public void LoadColorTheme()
         {
             // TODO
+            ColorTheme.Load("default");
         }
 
         public void LoadKeyBindings()
@@ -47,14 +49,19 @@ namespace dezi.Config
             return editorSettings;
         }
 
-        public static EditorSettings Default()
+        private static EditorSettings Default()
         {
             EditorSettings editorSettings = new EditorSettings();
             editorSettings.CurrentColorTheme = ColorTheme.Load("default");
             editorSettings.CurrentKeyBindings = new KeyBindings();
             editorSettings.WrapLines = true;
             editorSettings.ShowLineNumbers = true;
-            // TODO: create settings file
+            if (!File.Exists(PathHelper.SettingsFilePath))
+            {
+                string jsonData = JsonConvert.SerializeObject(editorSettings);
+                PathHelper.CreateSettingsFolder();
+                File.WriteAllText(PathHelper.SettingsFilePath, jsonData);
+            }
             return editorSettings;
         }
     }

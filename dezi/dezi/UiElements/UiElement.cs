@@ -1,4 +1,7 @@
-﻿namespace dezi.UiElements
+﻿using dezi.Input;
+using System.Collections.Generic;
+
+namespace dezi.UiElements
 {
     public abstract class UiElement
     {
@@ -17,7 +20,7 @@
             {
                 int widthDelta = value - this.width;
                 this.width = value;
-                UpdateSubmoduleSizes(widthDelta, 0);
+                this.UpdateSubmoduleSizesAndPositions(widthDelta, 0);
             }
         }
 
@@ -31,11 +34,23 @@
             {
                 int heightDelta = value - this.height;
                 this.height = value;
-                UpdateSubmoduleSizes(0, heightDelta);
+                this.UpdateSubmoduleSizesAndPositions(0, heightDelta);
             }
         }
 
-        public int ID { get; private set; }
+        public int MinHeight { get; set; }
+
+        public int MaxHeight { get; set; }
+
+        public int MinWidth { get; set; }
+
+        public int MaxWidth { get; set; }
+
+        public bool IsInFocus { get; set; }
+
+        public bool IsInteractiveElement { get; set; }
+
+        public int ID { get; }
 
         public int CoordinateX { get; set; }
 
@@ -45,8 +60,18 @@
 
         protected UiElement()
         {
+            this.IsInFocus = false;
+
+            this.IsInteractiveElement = false;
+
             this.ID = idCounter++;
             this.ShowElement = true;
+
+            // Use -1 for deactivating min and max setting for UiElement
+            this.MinHeight = -1;
+            this.MaxHeight = -1;
+            this.MinWidth = -1;
+            this.MaxWidth = -1;
         }
 
         /// <summary>
@@ -55,6 +80,15 @@
         /// </summary>
         /// <param name="widthDelta"></param>
         /// <param name="heightDelta"></param>
-        protected abstract void UpdateSubmoduleSizes(int widthDelta, int heightDelta);
+        protected abstract void UpdateSubmoduleSizesAndPositions(int widthDelta, int heightDelta);
+
+        public abstract void Render(IList<string> uiOutput);
+
+        public abstract void HandleInput(InputAction inputAction);
+
+        public virtual IList<Cursor> GetCursors()
+        {
+            return new List<Cursor>();
+        }
     }
 }

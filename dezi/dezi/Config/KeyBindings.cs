@@ -1,4 +1,5 @@
-﻿using dezi.Input;
+﻿using dezi.Helper;
+using System.IO;
 
 namespace dezi.Config
 {
@@ -7,16 +8,24 @@ namespace dezi.Config
         // TODO: load settings
         // TODO: create properties to load settings into
 
-        public KeyboardInputs KeyboardInputs { get; }
-
         public KeyBindings()
         {
-            this.KeyboardInputs = new KeyboardInputs(this);
         }
 
-        public void Save()
+        public static KeyBindings DefaultKeyBindings()
         {
+            KeyBindings keyBindings = new KeyBindings();
             // TODO
+            return keyBindings;
+        }
+
+        public static KeyBindings Load()
+        {
+            if (File.Exists(PathHelper.KeybindingsFilePath))
+            {
+                // TODO: load file
+            }
+            return DefaultKeyBindings();
         }
     }
 }

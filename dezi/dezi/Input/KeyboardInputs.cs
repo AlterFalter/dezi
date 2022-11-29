@@ -14,8 +14,9 @@ namespace dezi.Input
             this.KeyBindings = keyBindings;
         }
 
-        public InputAction GetInputActionsFromKeyboard()
+        public InputAction GetInputActionsFromKeyboard(DeziStatus deziStatus)
         {
+            // TODO: refactor with new class that maps shortcuts to action
             // TODO: alt key doesn't work
             ConsoleKeyInfo character = Console.ReadKey(true);
             // TODO: use key bindings from settings and not fix keys
@@ -27,75 +28,88 @@ namespace dezi.Input
             {
                 return InputAction.QuitUiElement;
             }
-            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.S)
+
+            if (deziStatus == DeziStatus.EditingFile)
             {
-                return InputAction.Save;
+                if (IsPressingCtrl(character) && character.Key == ConsoleKey.S)
+                {
+                    return InputAction.Save;
+                }
+                else if (IsPressingCtrl(character) && character.Key == ConsoleKey.U)
+                {
+                    return InputAction.SpawnMultiCursorAbove;
+                }
+                else if (IsPressingCtrl(character) && character.Key == ConsoleKey.I)
+                {
+                    return InputAction.SpawnMultiCursorUnder;
+                }
+                else if (character.Key == ConsoleKey.Escape)
+                {
+                    return InputAction.DeactivateMultiCursors;
+                }
+                else if (character.Key == ConsoleKey.UpArrow)
+                {
+                    return InputAction.MoveCursorUp;
+                }
+                else if (character.Key == ConsoleKey.DownArrow)
+                {
+                    return InputAction.MoveCursorDown;
+                }
+                else if (character.Key == ConsoleKey.LeftArrow)
+                {
+                    return InputAction.MoveCursorLeft;
+                }
+                else if (character.Key == ConsoleKey.RightArrow)
+                {
+                    return InputAction.MoveCursorRight;
+                }
+                else if (character.Key == ConsoleKey.Backspace)
+                {
+                    return InputAction.Backspace;
+                }
+                else if (character.Key == ConsoleKey.Delete)
+                {
+                    return InputAction.Delete;
+                }
+                else if (character.Key == ConsoleKey.Enter)
+                {
+                    return InputAction.AddNewLine;
+                }
+                else if (character.Key == ConsoleKey.Home)
+                {
+                    return InputAction.Home;
+                }
+                else if (character.Key == ConsoleKey.End)
+                {
+                    return InputAction.End;
+                }
+                else if (character.Key == ConsoleKey.PageUp)
+                {
+                    return InputAction.PageUp;
+                }
+                else if (character.Key == ConsoleKey.PageDown)
+                {
+                    return InputAction.PageDown;
+                }
+                else if (character.Key == ConsoleKey.Tab)
+                {
+                    return InputAction.Tab;
+                }
             }
-            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.U)
+            else if (deziStatus == DeziStatus.SaveFile)
             {
-                return InputAction.SpawnMultiCursorAbove;
+                if (character.Key == ConsoleKey.Escape)
+                {
+                    return InputAction.Cancel;
+                }
+                else if (character.Key == ConsoleKey.Enter)
+                {
+                    return InputAction.Save;
+                }
             }
-            else if (IsPressingCtrl(character) && character.Key == ConsoleKey.I)
-            {
-                return InputAction.SpawnMultiCursorUnder;
-            }
-            else if (character.Key == ConsoleKey.Escape)
-            {
-                return InputAction.DeactivateMultiCursors;
-            }
-            else if (character.Key == ConsoleKey.UpArrow)
-            {
-                return InputAction.MoveCursorUp;
-            }
-            else if (character.Key == ConsoleKey.DownArrow)
-            {
-                return InputAction.MoveCursorDown;
-            }
-            else if (character.Key == ConsoleKey.LeftArrow)
-            {
-                return InputAction.MoveCursorLeft;
-            }
-            else if (character.Key == ConsoleKey.RightArrow)
-            {
-                return InputAction.MoveCursorRight;
-            }
-            else if (character.Key == ConsoleKey.Backspace)
-            {
-                return InputAction.Backspace;
-            }
-            else if (character.Key == ConsoleKey.Delete)
-            {
-                return InputAction.Delete;
-            }
-            else if (character.Key == ConsoleKey.Enter)
-            {
-                return InputAction.AddNewLine;
-            }
-            else if (character.Key == ConsoleKey.Home)
-            {
-                return InputAction.Home;
-            }
-            else if (character.Key == ConsoleKey.End)
-            {
-                return InputAction.End;
-            }
-            else if (character.Key == ConsoleKey.PageUp)
-            {
-                return InputAction.PageUp;
-            }
-            else if (character.Key == ConsoleKey.PageDown)
-            {
-                return InputAction.PageDown;
-            }
-            else if (character.Key == ConsoleKey.Tab)
-            {
-                return InputAction.Tab;
-            }
-            else
-            {
-                this.LatestInput = character.KeyChar.ToString();
-                return InputAction.Input;
-            }
+
+            this.LatestInput = character.KeyChar.ToString();
+            return InputAction.Input;
         }
 
         private bool IsPressingCtrl(ConsoleKeyInfo character)

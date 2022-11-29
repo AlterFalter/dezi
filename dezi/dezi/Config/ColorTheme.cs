@@ -1,27 +1,49 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace dezi.Config
 {
     public sealed class ColorTheme
     {
-        public ConsoleColor ForegroundColor { get; private set; }
+        private static readonly string DEFAULT_COLOR_THEME = "nice";
 
-        public ConsoleColor BackgroundColor { get; private set; }
+        public string Name { get; }
 
-        public ConsoleColor CursorColor { get; set; }
+        public ConsoleColor ForegroundColor { get; }
 
-        private ColorTheme()
+        public ConsoleColor BackgroundColor { get; }
+
+        public ConsoleColor CursorColor { get; }
+
+        public ColorTheme(string name, ConsoleColor foregroundColor, ConsoleColor backgroundColor, ConsoleColor cursorColor)
         {
+            this.Name = name;
+            this.ForegroundColor = foregroundColor;
+            this.BackgroundColor = backgroundColor;
+            this.CursorColor = cursorColor;
         }
 
         public static ColorTheme Load(string colorThemeName)
         {
-            // TODO: select color theme
-            ColorTheme defaultColorTheme = new ColorTheme();
-            defaultColorTheme.ForegroundColor = ConsoleColor.Black;
-            defaultColorTheme.BackgroundColor = ConsoleColor.White;
-            defaultColorTheme.CursorColor = ConsoleColor.Blue;
-            return defaultColorTheme;
+            IList<ColorTheme> colorThemes = GetPreexistingColorThemes();
+            ColorTheme colorTheme = colorThemes.SingleOrDefault(ct => ct.Name == colorThemeName);
+            if (colorTheme == null)
+            {
+                colorTheme = colorThemes.First(ct => ct.Name == DEFAULT_COLOR_THEME);
+            }
+            return colorTheme;
+        }
+
+        public static IList<ColorTheme> GetPreexistingColorThemes()
+        {
+            IList<ColorTheme> colorThemes = new List<ColorTheme>();
+
+            ColorTheme defaultColorTheme = new ColorTheme(DEFAULT_COLOR_THEME, ConsoleColor.Black, ConsoleColor.White, ConsoleColor.Blue);
+
+            colorThemes.Add(defaultColorTheme);
+
+            return colorThemes;
         }
     }
 }

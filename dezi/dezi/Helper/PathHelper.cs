@@ -12,5 +12,10 @@ namespace dezi.Helper
         public readonly static string KeybindingsFilePath = Path.Combine(DeziConfigFolderPath, "keybindings.json");
 
         public readonly static string ColorThemesFolderPath = Path.Combine(DeziConfigFolderPath, "colorThemes");
+
+        internal static void CreateSettingsFolder()
+        {
+            Directory.CreateDirectory(DeziConfigFolderPath);
+        }
     }
 }

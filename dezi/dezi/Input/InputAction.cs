@@ -26,6 +26,7 @@
         Save,
         SpawnMultiCursorAbove,
         SpawnMultiCursorUnder,
-        DeactivateMultiCursors
+        DeactivateMultiCursors,
+        Cancel
     }
 }

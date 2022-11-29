@@ -19,6 +19,8 @@ namespace dezi.UiElements
 
         public static int TerminalHeight => Console.WindowHeight;
 
+        public DeziStatus DeziStatus { get; set; }
+
         private IList<string> uiOutput;
 
         public IList<string> UiOutput
@@ -71,7 +73,7 @@ namespace dezi.UiElements
             isFirstRender = true;
 
             this.EditorSettings = EditorSettings.Load();
-            this.KeyboardInputs = this.EditorSettings.CurrentKeyBindings.KeyboardInputs;
+            this.KeyboardInputs = new KeyboardInputs(this.EditorSettings.CurrentKeyBindings);
 
             this.uiOutput = new List<string>();
             for (int i = 0; i < TerminalHeight; i++)
@@ -87,11 +89,14 @@ namespace dezi.UiElements
 
             this.Editors = new List<Editor>
             {
-                new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight, true, filePaths[0])
+                new Editor(this.KeyboardInputs, 0, 0, TerminalWidth, TerminalHeight - 1, true, this.ChangeToSaveStatus, filePaths[0])
             };
 
             this.BaseVerticalStackPanel = new VerticalStackPanel();
-            this.BaseVerticalStackPanel.AddBottom(this.Editors.First());
+            this.BaseVerticalStackPanel.AddTop(this.Editors.First());
+            HorizontalStackPanel horizontalStackPanelForCommands = new HorizontalStackPanel();
+            horizontalStackPanelForCommands.MaxHeight = 1;
+            this.BaseVerticalStackPanel.AddBottom(horizontalStackPanelForCommands);
 
             Console.Title = "Dezi";
             Console.CursorVisible = false;
@@ -104,8 +109,6 @@ namespace dezi.UiElements
         {
             while (true)
             {
-                // TODO: remove this and insert it at the correct position
-                this.Editors.Single(e => e.IsInFocus).RemoveDuplicateCursors();
                 Render();
                 HandleInput();
             }
@@ -113,34 +116,38 @@ namespace dezi.UiElements
 
         private void Render()
         {
-            // TODO: Rewrite to render from the stack panel onwards instead of editor
-
             Console.BackgroundColor = this.EditorSettings.CurrentColorTheme.BackgroundColor;
             Console.ForegroundColor = this.EditorSettings.CurrentColorTheme.ForegroundColor;
 
             // TODO: replace copy-method with non-deprecated method
             IList<string> oldUiOutput = this.uiOutput.Select(l => string.Copy(l)).ToList();
-
-            foreach (Editor editor in this.Editors)
+            bool consoleSizeChanged = this.uiOutput.Count != TerminalHeight || this.uiOutput.First().Count() != TerminalWidth;
+            if (consoleSizeChanged)
             {
-                editor.Height = TerminalHeight;
-                editor.Width = TerminalWidth;
-                editor.Render(this.UiOutput);
+                this.uiOutput = new List<string>();
+                for (int y = 0; y < TerminalHeight; y++)
+                {
+                    this.uiOutput.Add(new string(' ', TerminalWidth));
+                }
             }
+
+            this.BaseVerticalStackPanel.Height = TerminalHeight;
+            this.BaseVerticalStackPanel.Width = TerminalWidth;
+            this.BaseVerticalStackPanel.Render(this.uiOutput);
 
             // output to terminal
             // only update the lines that changed
             // updating complete line is faster than checking every char.
             for (int rowIndex = 0; rowIndex < this.UiOutput.Count; rowIndex++)
             {
-                if (this.UiOutput[rowIndex] != oldUiOutput[rowIndex] || this.isFirstRender)
+                if (this.isFirstRender || consoleSizeChanged || this.UiOutput[rowIndex] != oldUiOutput[rowIndex])
                 {
                     SetTerminalCursorPosition(rowIndex, 0);
                     Console.Write(this.UiOutput[rowIndex]);
                 }
             }
 
-            foreach (Cursor cursor in this.Editors.Single(e => e.IsInFocus).Cursors)
+            foreach (Cursor cursor in this.BaseVerticalStackPanel.GetInteractiveUiElements().Single(iue => iue.IsInFocus).GetCursors())
             {
                 SetTerminalCursorPosition(cursor.Row, cursor.Column);
                 Console.BackgroundColor = this.EditorSettings.CurrentColorTheme.CursorColor;
@@ -157,9 +164,10 @@ namespace dezi.UiElements
 
         private void HandleInput()
         {
-            InputAction inputAction = this.KeyboardInputs.GetInputActionsFromKeyboard();
+            InputAction inputAction = this.KeyboardInputs.GetInputActionsFromKeyboard(this.DeziStatus);
             switch (inputAction)
             {
+                // add universal actions in here
                 case InputAction.QuitProgram:
                     QuitProgram();
                     break;
@@ -175,7 +183,14 @@ namespace dezi.UiElements
                     }
                     break;
                 default:
-                    this.Editors.Single(e => e.IsInFocus).HandleInput(inputAction);
+                    if (this.DeziStatus == DeziStatus.EditingFile)
+                    {
+                        this.BaseVerticalStackPanel.GetInteractiveUiElements().Single(iue => iue.IsInFocus).HandleInput(inputAction);
+                    }
+                    else if (this.DeziStatus == DeziStatus.SaveFile)
+                    {
+
+                    }
                     break;
             }
         }
@@ -184,6 +199,20 @@ namespace dezi.UiElements
         {
             Console.Clear();
             Environment.Exit(0);
+        }
+
+        public void ChangeToSaveStatus()
+        {
+            //////////////////////////////
+            // TODO: finish this
+            // must be editor, otherwise it wouldn't be in save status
+            Editor currentEditor = (Editor)this.BaseVerticalStackPanel.GetInteractiveUiElements().Single(iue => iue.IsInFocus);
+            currentEditor.IsInFocus = false;
+
+            this.DeziStatus = DeziStatus.SaveFile;
+            SaveDialog saveDialog = new SaveDialog(this.KeyboardInputs, currentEditor);
+            saveDialog.IsInFocus = true;
+            this.BaseVerticalStackPanel.AddBottom(saveDialog);
         }
     }
 }
