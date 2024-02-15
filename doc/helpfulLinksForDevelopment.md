@@ -18,3 +18,5 @@
 * <https://www.reddit.com/r/programming/comments/6rng76/text_editor_from_scratch_by_gary_bernhardt/>
 * <https://news.ycombinator.com/item?id=16591918>
 * <https://codereview.stackexchange.com/questions/191503/simple-console-text-editor>
+* <https://www.reddit.com/r/commandline/comments/cri1dt/terminal_text_editor_thats_normal/>
+* <https://www.reddit.com/r/AskProgramming/comments/3gxpfz/creating_a_terminal_text_editor_tips/>
