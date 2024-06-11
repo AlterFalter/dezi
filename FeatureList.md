@@ -74,6 +74,7 @@ See second list for features which are not yet fix if they ever come or not.
 | Save cursor position for next edit |  | No |
 | Detect & mark trailing white space |  | No |
 | Remove trailing white space command |  | No |
+| Setup GitHub Actions |  | Yes |
 
 ## Possible features
 
@@ -91,9 +92,9 @@ These features are not yet decided upon:
 
 | Row description | V1.0 |
 | --------------- | ---- |
-| Release Date | planned end of summer 2022 |
-| Windows 10 | |
-| Windows 11 | |
-| Linux (Debian based) | |
-| Linux (Arch based) | |
-| MacOS | |
+| Release Date | unknown |
+| Windows 10 | planned |
+| Windows 11 | should work too when Win10 works |
+| Linux (Debian based) | planned |
+| Linux (Arch based) | should work too but build yourself or contribute for this |
+| MacOS | not planned |
