@@ -21,11 +21,15 @@ namespace dezi.UiElements.StackPanel
         protected override void UpdateSubmoduleSizesAndPositions(int widthDelta, int heightDelta)
         {
             // TODO: finalize this method with all min and max width cases
-            int numberOfElementsWithDynamicWidth = this.uiElements.Count(ue => ue.UiElement.MinWidth == -1 && ue.UiElement.MaxWidth == -1);
-            int maxWidthFromAllElements = this.uiElements.Where(ue => ue.UiElement.MaxWidth != -1).Select(ue => ue.UiElement.MaxWidth).Sum();
-            int minWidthFromAllElements = this.uiElements.Where(ue => ue.UiElement.MinWidth != -1).Select(ue => ue.UiElement.MinWidth).Sum();
+            // int numberOfElementsWithDynamicWidth = this.uiElements.Count(ue => ue.UiElement.MinWidth == -1 && ue.UiElement.MaxWidth == -1);
+            // int maxWidthFromAllElements = this.uiElements.Where(ue => ue.UiElement.MaxWidth != -1).Select(ue => ue.UiElement.MaxWidth).Sum();
+            // int minWidthFromAllElements = this.uiElements.Where(ue => ue.UiElement.MinWidth != -1).Select(ue => ue.UiElement.MinWidth).Sum();
+            int numberOfElementsWithDynamicWidth = this.uiElements.Count(ue => ue.MinWidth == -1 && ue.MaxWidth == -1);
+            int maxWidthFromAllElements = this.uiElements.Where(ue => ue.MaxWidth != -1).Select(ue => ue.MaxWidth).Sum();
+            int minWidthFromAllElements = this.uiElements.Where(ue => ue.MinWidth != -1).Select(ue => ue.MinWidth).Sum();
             int xCoordinateForSubElement = 0;
-            foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            //foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            foreach (UiElement uiElement in this.uiElements)
             {
                 uiElement.CoordinateX = this.CoordinateX + xCoordinateForSubElement;
                 if (uiElement.MaxWidth == -1)

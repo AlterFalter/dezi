@@ -10,11 +10,12 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/dezi/dezi/bin/Debug/net5.0/dezi.dll",
+            "program": "${workspaceFolder}/dezi/dezi/bin/Debug/net6.0/dezi.dll",
             "args": [],
             "cwd": "${workspaceFolder}/dezi/dezi",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
+            //"console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {

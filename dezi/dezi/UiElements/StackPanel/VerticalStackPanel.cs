@@ -21,12 +21,18 @@ namespace dezi.UiElements.StackPanel
         protected override void UpdateSubmoduleSizesAndPositions(int widthDelta, int heightDelta)
         {
             // TODO: finalize this method with all min and max height cases
-            int numberOfElementsWithDynamicHeight = this.uiElements.Count(ue => ue.UiElement.MinHeight == -1 && ue.UiElement.MaxHeight == -1);
-            int maxHeightFromAllElements = this.uiElements.Where(ue => ue.UiElement.MaxHeight != -1).Select(ue => ue.UiElement.MaxHeight).Sum();
-            int minHeightFromAllElements = this.uiElements.Where(ue => ue.UiElement.MinHeight != -1).Select(ue => ue.UiElement.MinHeight).Sum();
+            // int numberOfElementsWithDynamicHeight = this.uiElements.Count(ue => ue.UiElement.MinHeight == -1 && ue.UiElement.MaxHeight == -1);
+            // int maxHeightFromAllElements = this.uiElements.Where(ue => ue.UiElement.MaxHeight != -1).Select(ue => ue.UiElement.MaxHeight).Sum();
+            // int minHeightFromAllElements = this.uiElements.Where(ue => ue.UiElement.MinHeight != -1).Select(ue => ue.UiElement.MinHeight).Sum();
+            int numberOfElementsWithDynamicHeight = this.uiElements.Count(ue => ue.MinHeight == -1 && ue.MaxHeight == -1);
+            int maxHeightFromAllElements = this.uiElements.Where(ue => ue.MaxHeight != -1).Select(ue => ue.MaxHeight).Sum();
+            int minHeightFromAllElements = this.uiElements.Where(ue => ue.MinHeight != -1).Select(ue => ue.MinHeight).Sum();
             int yCoordinateForSubElement = 0;
-            foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            // TODO: OrderBy even necessary? already added to the list in order
+            //foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            foreach (UiElement uiElement in this.uiElements)
             {
+                // TODO: seems buggy
                 uiElement.CoordinateY = this.CoordinateY + yCoordinateForSubElement;
                 if (uiElement.MaxHeight == -1)
                 {

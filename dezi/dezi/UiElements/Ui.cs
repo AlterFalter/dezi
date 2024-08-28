@@ -1,4 +1,5 @@
 ﻿using dezi.Config;
+using dezi.Helper;
 using dezi.Input;
 using dezi.UiElements.Editors;
 using dezi.UiElements.StackPanel;
@@ -101,8 +102,11 @@ namespace dezi.UiElements
             Console.Title = "Dezi";
             Console.CursorVisible = false;
             // TODO: replace with multi-platform code
-            Console.SetWindowSize(TerminalWidth, TerminalHeight);
-            Console.SetBufferSize(TerminalWidth, TerminalHeight);
+            if (OsHelper.IsWindows())
+            {
+                Console.SetWindowSize(TerminalWidth, TerminalHeight);
+                Console.SetBufferSize(TerminalWidth, TerminalHeight);
+            }
         }
 
         public void Run()
@@ -119,8 +123,9 @@ namespace dezi.UiElements
             Console.BackgroundColor = this.EditorSettings.CurrentColorTheme.BackgroundColor;
             Console.ForegroundColor = this.EditorSettings.CurrentColorTheme.ForegroundColor;
 
-            // TODO: replace copy-method with non-deprecated method
-            IList<string> oldUiOutput = this.uiOutput.Select(l => string.Copy(l)).ToList();
+            IList<string> oldUiOutput = this.uiOutput
+                //.Select(l => (string)l.Clone())
+                .ToList();
             bool consoleSizeChanged = this.uiOutput.Count != TerminalHeight || this.uiOutput.First().Count() != TerminalWidth;
             if (consoleSizeChanged)
             {

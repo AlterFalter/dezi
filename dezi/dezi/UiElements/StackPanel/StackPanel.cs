@@ -7,11 +7,11 @@ namespace dezi.UiElements.StackPanel
 {
     public abstract class StackPanel : UiElement, Layout
     {
-        protected IList<StackPanelElement> uiElements;
+        protected IList<UiElement> uiElements;
 
         public StackPanel()
         {
-            this.uiElements = new List<StackPanelElement>();
+            this.uiElements = new List<UiElement>();
         }
 
         public void Remove(int index)
@@ -21,12 +21,14 @@ namespace dezi.UiElements.StackPanel
 
         public void Add(UiElement uiElement, int index)
         {
-            this.uiElements.Add(new StackPanelElement(uiElement, index));
+            //this.uiElements.Add(new StackPanelElement(uiElement, index));
+            this.uiElements.Add(uiElement);
         }
 
         public override void Render(IList<string> uiOutput)
         {
-            foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            //foreach (UiElement uiElement in this.uiElements.OrderBy(ue => ue.Index).Select(ue => ue.UiElement))
+            foreach (UiElement uiElement in this.uiElements)
             {
                 uiElement.Render(uiOutput);
             }
@@ -42,8 +44,8 @@ namespace dezi.UiElements.StackPanel
                 .ForEach(ue => uiElements.AddRange(ue));
             uiElements.AddRange(
                 this.uiElements
-                    .Where(ue => ue.UiElement.IsInteractiveElement)
-                    .Select(iue => iue.UiElement)
+                    .Where(ue => ue.IsInteractiveElement)
+                    //.Select(iue => iue.UiElement)
                     .ToList());
             return uiElements;
         }
